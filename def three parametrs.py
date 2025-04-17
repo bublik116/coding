@@ -1,6 +1,10 @@
+
+# Online Python - IDE, Editor, Compiler, Interpreter
+
 def process(number):
     number1 = int(number)
     num = 0
+    spisok = []
     string1 = "proverka"
     if string1 =="":
         raise ValueError("Пустая строка")
@@ -20,7 +24,10 @@ def process(number):
                 print(f"Квадрат числа {num}  больше  или равен  20 и меньше или равен  50")
             if num == 9:
                 break
-            
+            spisok.append(num1)
+            print(spisok)
+            return spisok
                 
 process(number = 10.0)
+square1 = spisok(number = 10.0)
 
