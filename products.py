@@ -1,14 +1,18 @@
 products = [("Хлеб", 40,20), ("Молоко", 60,15), ("Яблоки", 100,80)]
-for product in products:
-    print(f"Товар:{product[0]}, Цена:{product[1]}")
-
-
-   
+spisok = []
 def min_price():
-     for product in products:
-        if product[1] < 80:
-            print(f"Товар:{product[0]}")   
+    total_price = 0
+    total_value = 0
     
+    for product in products:
+        global spisok
+        quantity = product[2]
+        price = product[1]
+        total_value = quantity * price
+        spisok.append(total_value)
+    print(spisok)
+    
+        
+        
+         
 min_price()
-
-
