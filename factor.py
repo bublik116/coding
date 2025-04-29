@@ -1,6 +1,8 @@
 
-try:
- with open("factor") as f:
- print(f.read())
-except FileNotFoundError:
- print("Файл не найден")
+my_file = open("factor", "w+")
+my_file.write("kdfjghkjdf")
+my_file.close()
+my_file = open("factor", "r")
+print(my_file.read())
+
+
