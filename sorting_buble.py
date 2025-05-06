@@ -17,9 +17,11 @@ def bubble_sort(arr):
     return arr
 
 array_selection = [33,22,44,55,66,12,42,99]
+print(array_selection)
 sorted_array_selection = selection_sort(array_selection)
 print(f"сортировка (Selection Sort): {sorted_array_selection}")
 
 array_bubble = [33,22,44,55,66,12,42,99]
+print(array_bubble)
 sorted_array_bubble = bubble_sort(array_bubble)
 print(f"сортировка (Bubble Sort): {sorted_array_bubble}")
