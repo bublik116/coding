@@ -28,6 +28,13 @@ class Group:
     def __init__(self, student):
         self.__students = [student]  # Приватный атрибут
     
+    def find_by_name(self, name):
+        for student in self.__students:
+            if student.get_name() == name:
+                student.display_info()
+                return
+        print("Студент не найден")
+    
     def get_students(self):
         return self.__students
     
@@ -37,6 +44,9 @@ class Group:
     def show_students(self):
         if not self.__students:
             print("Группа пуста")
+        else:
+            for student in self.__students:
+                student.display_info()
         else:
             for student in self.__students:
                 student.display_info()
