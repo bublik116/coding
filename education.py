@@ -1,29 +1,42 @@
 class Student:
     def __init__(self, name, student_id):
-        self.name = name
-        self.student_id = student_id
-        self.grades = []  # Добавлен пустой список для оценок
+        self.__name = name          # Приватный атрибут
+        self.__student_id = student_id  # Приватный атрибут
+        self.__grades = []          # Приватный атрибут
+    
+    def get_name(self):
+        return self.__name
+    
+    def get_id(self):
+        return self.__student_id
+    
+    def get_grades(self):
+        return self.__grades
+    
     
     def display_info(self):
-        print(f"Имя: {self.name}, ID: {self.student_id}")
+        print(f"Имя: {self.__name}, ID: {self.__student_id}")
     
-    def add_grade(self, grade):  # Новый метод добавления оценки
-        self.grades.append(grade)
+    def add_grade(self, grade):
+        self.__grades.append(grade)
     
-    def get_average(self):  # Новый метод расчёта средней оценки
-        return sum(self.grades) / len(self.grades) if self.grades else 0
+    def get_average(self):
+        return sum(self.__grades) / len(self.__grades) if self.__grades else 0
 
 
 class Group:
     def __init__(self, student):
-        self.students = [student]
+        self.__students = [student]  # Приватный атрибут
+    
+    def get_students(self):
+        return self.__students
     
     def add_student(self, student):
-        self.students.append(student)
+        self.__students.append(student)
     
     def show_students(self):
-        if not self.students:
+        if not self.__students:
             print("Группа пуста")
         else:
-            for student in self.students:
+            for student in self.__students:
                 student.display_info()
