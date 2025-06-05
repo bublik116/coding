@@ -23,6 +23,14 @@ class Student:
     def get_average(self):
         return sum(self.__grades) / len(self.__grades) if self.__grades else 0
 
+class HonorsStudent(Student):
+    def is_eligible_for_award(self):
+        return self.get_average() >= 90
+    
+    def display_info(self):
+        super().display_info()
+        if self.is_eligible_for_award():
+            print("Претендент на награду")
 
 class Group:
     def __init__(self, student):
