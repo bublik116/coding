@@ -35,6 +35,14 @@ class Group:
                 return
         print("Студент не найден")
     
+    def remove_student_by_id(self, student_id):
+        for i, student in enumerate(self.__students):
+            if student.get_id() == student_id:
+                del self.__students[i]
+                print(f"Студент с ID {student_id} удалён")
+                return
+        print(f"Студент с ID {student_id} не найден")    
+    
     def get_students(self):
         return self.__students
     
@@ -44,9 +52,6 @@ class Group:
     def show_students(self):
         if not self.__students:
             print("Группа пуста")
-        else:
-            for student in self.__students:
-                student.display_info()
         else:
             for student in self.__students:
                 student.display_info()
