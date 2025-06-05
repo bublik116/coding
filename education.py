@@ -1,15 +1,13 @@
-class Student:
-    def __init__(self, name, student_id):
-        self.name = name
-        self.student_id = student_id
-    
-    def display_info(self):
-        print(f"Имя: {self.name}, ID: {self.student_id}")
-
-
 class Group:
     def __init__(self, student):
-        self.students = [student]  # Создаём список с первым студентом
+        self.students = [student]  # Инициализация списка с одним студентом
     
     def add_student(self, student):
-        self.students.append(student)  #  добавление нового студента
+        self.students.append(student)  # Добавление нового студента
+    
+    def show_students(self):
+        if not self.students:  # Проверка на пустоту списка
+            print("Группа пуста")
+        else:
+            for student in self.students:
+                student.display_info()  # Вывод информации о каждом студенте
