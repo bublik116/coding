@@ -29,3 +29,36 @@ class library:
             print("Список всех книг в библиотеке:")
             for book in Book_all:
                 book.get_info()
+
+# Создаем экземпляр библиотеки
+lib = library()
+
+# Бесконечный цикл управления
+while True:
+    print("\nВыберите действие:")
+    print("1 - Добавить книгу")
+    print("2 - Удалить книгу")
+    print("3 - Показать все книги")
+    
+    action = input("Ваш выбор (1-3): ")
+    
+    if action == "1":
+        print("\nДобавление новой книги:")
+        name = input("Название: ")
+        author = input("Автор: ")
+        year = input("Год издания: ")
+        lib.new_book(Book(name, author, year))
+    
+    elif action == "2":
+        if not Book_all:
+            print("\nВ библиотеке нет книг для удаления.")
+        else:
+            print("\nУдаление книги:")
+            name = input("Введите название книги для удаления: ")
+            lib.del_book(name)
+    
+    elif action == "3":
+        lib.show_book()
+    
+    else:
+        print("\nОшибка! Пожалуйста, введите 1, 2 или 3")
