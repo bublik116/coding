@@ -76,3 +76,13 @@ router.connect(pc1)
 router.connect(pc2)
 router.connect(pc3)
 router.connect(pc4)
+
+# Подключаем все компьютеры к роутеру
+for pc in [pc1, pc2, pc3, pc4]:
+    router.connect(pc)
+    pc.router = router  # Обязательно обновляем ссылку на роутер у каждого компьютера
+# Отправляем сообщения
+pc1.send("PC3", "Привет от PC1!")
+pc3.send("PC1", "Ответ от PC3!")
+pc2.send("PC4", "PC2 здесь.")
+pc4.send("PC2", "Принято!")
