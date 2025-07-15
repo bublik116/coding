@@ -1,88 +1,70 @@
 class Packet:
     def __init__(self, src, dst, data):
-        self.src = src      # Имя отправителя
-        self.dst = dst      # Имя получателя
+        self.src = src      # MAC-адрес отправителя
+        self.dst = dst      # MAC-адрес получателя
         self.data = data    # Сообщение
 
+    def is_broadcast(self):
+        """Проверяет, является ли пакет широковещательным"""
+        return self.dst == "FF:FF:FF:FF:FF:FF"
+
     def __repr__(self):
-        return f"Packet(src={self.src}, dst={self.dst}, data={self.data})"
+        return f"Packet(src={self.src}, dst={self.dst}, data='{self.data}')"
 
 
 class Computer:
-    def __init__(self, name, router=None):
-        self.name = name         # Имя компьютера
-        self.router = router     # Ссылка на роутер
+    def __init__(self, mac_address, router=None):
+        self.mac = mac_address   # Теперь используем MAC вместо имени
+        self.router = router
 
         if router:
             router.connect(self)
 
     def send(self, dst, data):
-        """Создаёт пакет и отправляет его через роутер"""
-        packet = Packet(self.name, dst, data)
+        packet = Packet(self.mac, dst, data)
         if self.router:
             self.router.route(packet)
         else:
-            print(f"{self.name}: Нет подключенного роутера для отправки сообщения.")
+            print(f"{self.mac}: Нет подключенного роутера для отправки сообщения.")
 
     def receive(self, packet):
-        """Получает пакет и выводит сообщение в консоль"""
-        print(f"{self.name} получил от {packet.src}: {packet.data}")
+        print(f"[{self.mac}] Получено от {packet.src}: {packet.data}")
 
 
 class Router:
     def __init__(self):
-        self.devices = {}  # Словарь подключенных устройств: {name: device}
+        self.devices = {}  # Ключ — MAC-адрес устройства
 
     def connect(self, device):
-        """Подключает устройство к роутеру"""
-        if device.name in self.devices:
-            print(f"{device.name} уже подключен.")
+        if device.mac in self.devices:
+            print(f"[Роутер] Устройство {device.mac} уже подключено.")
         else:
-            self.devices[device.name] = device
-            print(f"{device.name} успешно подключен к роутеру.")
+            self.devices[device.mac] = device
+            print(f"[Роутер] Устройство {device.mac} успешно подключено.")
 
     def route(self, packet):
-        """Пересылает пакет получателю, если он подключен к этому роутеру"""
-        if packet.dst in self.devices:
-            self.devices[packet.dst].receive(packet)
+        if packet.is_broadcast():
+            print(f"[Роутер] Рассылка широковещательного пакета от {packet.src}")
+            for mac, device in self.devices.items():
+                if mac != packet.src:  # Не отправляем себе же
+                    device.receive(packet)
         else:
-            print(f"Роутер: Получатель '{packet.dst}' не найден среди подключённых устройств.")
-            
-            
-            
+            if packet.dst in self.devices:
+                self.devices[packet.dst].receive(packet)
+            else:
+                print(f"[Роутер] Получатель '{packet.dst}' не найден.")
+                
+                
+                
 # Создаем роутер
 router = Router()
 
-# Создаем компьютеры и подключаем их к роутеру
-comp1 = Computer("Alice", router)
-comp2 = Computer("Bob", router)
+# Создаем компьютеры с MAC-адресами
+pc1 = Computer("00:1A:2B:3C:4D:5E", router)
+pc2 = Computer("00:1A:2B:3C:4D:5F", router)
+pc3 = Computer("00:1A:2B:3C:4D:60", router)
+pc4 = Computer("00:1A:2B:3C:4D:61", router)
 
-# Отправляем сообщение от Alice к Bob
-comp1.send("Bob", "Привет, Боб!")
 
-# Попробуем отправить сообщение несуществующему получателю
-comp2.send("Charlie", "Тестовое сообщение")            
-# Создаем один объект Router
-router = Router()
-
-# Создаем четыре объекта Computer
-pc1 = Computer("PC1")
-pc2 = Computer("PC2")
-pc3 = Computer("PC3")
-pc4 = Computer("PC4")
-
-# Подключаем все компьютеры к роутеру
-router.connect(pc1)
-router.connect(pc2)
-router.connect(pc3)
-router.connect(pc4)
-
-# Подключаем все компьютеры к роутеру
-for pc in [pc1, pc2, pc3, pc4]:
-    router.connect(pc)
-    pc.router = router  # Обязательно обновляем ссылку на роутер у каждого компьютера
-# Отправляем сообщения
-pc1.send("PC3", "Привет от PC1!")
-pc3.send("PC1", "Ответ от PC3!")
-pc2.send("PC4", "PC2 здесь.")
-pc4.send("PC2", "Принято!")
+# Широковещательный адрес — FF:FF:FF:FF:FF:FF
+pc1.send("FF:FF:FF:FF:FF:FF", "Привет всем от PC1!")
