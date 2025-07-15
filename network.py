@@ -62,3 +62,17 @@ comp1.send("Bob", "Привет, Боб!")
 
 # Попробуем отправить сообщение несуществующему получателю
 comp2.send("Charlie", "Тестовое сообщение")            
+# Создаем один объект Router
+router = Router()
+
+# Создаем четыре объекта Computer
+pc1 = Computer("PC1")
+pc2 = Computer("PC2")
+pc3 = Computer("PC3")
+pc4 = Computer("PC4")
+
+# Подключаем все компьютеры к роутеру
+router.connect(pc1)
+router.connect(pc2)
+router.connect(pc3)
+router.connect(pc4)
